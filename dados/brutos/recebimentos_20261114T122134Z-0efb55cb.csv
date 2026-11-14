@@ -1,0 +1,3 @@
+run_id,cenario,repeticao,fila,evento_id,tipo,enviado_utc,recebido_utc,latencia_ms,sqs_message_id,sqs_receive_count,delete_sucesso
+20261114T122134Z-0efb55cb,smoke,1,pedidos-normais,cc6641c5-d241-4896-a451-7a5311e46133,normal,2026-11-14T12:21:34.317945+00:00,2026-11-14T12:21:34.426034+00:00,108.089,1e4dd103-723e-467a-b5a0-84c7754a4754,1,True
+20261114T122134Z-0efb55cb,smoke,1,pedidos-prioritario,84f57cca-9234-45fa-9322-40f98a94500d,prioritario,2026-11-14T12:21:34.318003+00:00,2026-11-14T12:21:34.440819+00:00,122.816,37af7d23-1cf7-4d5d-a039-1b4c43cdb795,1,True

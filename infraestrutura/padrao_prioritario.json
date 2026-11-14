@@ -1,0 +1,5 @@
+{
+  "source": ["sbc.pedidos"],
+  "detail-type": ["PedidoCriado"],
+  "detail": {"tipo": ["prioritario"]}
+}

@@ -1,0 +1,4 @@
+carga_por_execucao,repeticoes,publicados,entregues,latencia_media_s,latencia_mediana_s,latencia_p95_global_s,latencia_p99_global_s,desvio_padrao_medias_s,vazao_media_eventos_s,vazao_minima_eventos_s,vazao_maxima_eventos_s,publicacao_min_s,publicacao_max_s
+100,5,500,500,1.32587,0.41067,4.43415,4.55697,0.05431,20.71380,17.85700,21.73200,0.16900,0.30800
+500,5,2500,2500,9.08620,1.97736,35.61950,44.58598,10.16948,33.16140,8.28000,55.28000,1.14400,27.08600
+1000,5,5000,5000,15.80773,5.86349,52.56213,66.74780,13.87824,33.04240,8.58600,73.22800,2.16500,63.20200

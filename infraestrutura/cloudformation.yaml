@@ -1,0 +1,105 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Exemplo educacional EventBridge Classic + duas filas SQS Standard, sem EC2,
+  NAT Gateway, KMS customizada, logs opcionais ou DLQ. Cria recursos AWS reais.
+Parameters:
+  NomeBarramento:
+    Type: String
+    Default: pedidos
+  NomeFilaNormal:
+    Type: String
+    Default: pedidos-normais
+  NomeFilaPrioritaria:
+    Type: String
+    Default: pedidos-prioritario
+Resources:
+  Barramento:
+    Type: AWS::Events::EventBus
+    Properties:
+      Name: !Ref NomeBarramento
+  FilaNormal:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref NomeFilaNormal
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 345600
+      ReceiveMessageWaitTimeSeconds: 10
+      DelaySeconds: 0
+      SqsManagedSseEnabled: true
+  FilaPrioritaria:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref NomeFilaPrioritaria
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 345600
+      ReceiveMessageWaitTimeSeconds: 10
+      DelaySeconds: 0
+      SqsManagedSseEnabled: true
+  RegraNormal:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: pedidos-normais
+      EventBusName: !Ref Barramento
+      State: ENABLED
+      EventPattern:
+        source:
+          - sbc.pedidos
+        detail-type:
+          - PedidoCriado
+        detail:
+          tipo:
+            - normal
+      Targets:
+        - Id: FilaNormal
+          Arn: !GetAtt FilaNormal.Arn
+  RegraPrioritaria:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: pedidos-prioritario
+      EventBusName: !Ref Barramento
+      State: ENABLED
+      EventPattern:
+        source:
+          - sbc.pedidos
+        detail-type:
+          - PedidoCriado
+        detail:
+          tipo:
+            - prioritario
+      Targets:
+        - Id: FilaPrioritaria
+          Arn: !GetAtt FilaPrioritaria.Arn
+  PoliticasDeEntrega:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref FilaNormal
+        - !Ref FilaPrioritaria
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PermitirEventBridgeNormal
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sqs:SendMessage
+            Resource: !GetAtt FilaNormal.Arn
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !GetAtt RegraNormal.Arn
+          - Sid: PermitirEventBridgePrioritario
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sqs:SendMessage
+            Resource: !GetAtt FilaPrioritaria.Arn
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !GetAtt RegraPrioritaria.Arn
+Outputs:
+  EventBusName:
+    Value: !Ref Barramento
+  QueueNormalUrl:
+    Value: !Ref FilaNormal
+  QueuePrioritariaUrl:
+    Value: !Ref FilaPrioritaria

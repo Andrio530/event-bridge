@@ -1,0 +1,22 @@
+% Implementacao independente e simplificada dos parametros visuais SBC.
+% Nao substitui a distribuicao oficial do sbc-template.sty.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sbc-template-compat}[2026/11/14 Compatibilidade de visualizacao SBC]
+\RequirePackage[a4paper,top=3.5cm,bottom=2.5cm,left=3cm,right=3cm]{geometry}
+\RequirePackage{mathptmx}
+\RequirePackage{caption}
+\captionsetup{font={small,bf,sf},labelfont=bf,skip=5pt}
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{6pt}
+\pagestyle{empty}
+\makeatletter
+\newcommand{\inst}[1]{\ensuremath{^{#1}}}
+\def\address#1{\gdef\@address{#1}}
+\def\@address{}
+\renewcommand{\maketitle}{\thispagestyle{empty}%
+\begin{center}\vspace*{-0.65cm}{\fontsize{16}{20}\selectfont\bfseries\@title\par}%
+\vspace{8pt}{\normalsize\bfseries\@author\par}%
+\vspace{7pt}{\normalsize\@address\par}\end{center}\vspace{6pt}}
+\renewenvironment{abstract}{\begin{list}{}{\setlength{\leftmargin}{.8cm}\setlength{\rightmargin}{.8cm}\setlength{\topsep}{6pt}}\item[]\textbf{\textit{Abstract.}}\ \itshape}{\end{list}}
+\newenvironment{resumo}{\begin{list}{}{\setlength{\leftmargin}{.8cm}\setlength{\rightmargin}{.8cm}\setlength{\topsep}{6pt}}\item[]\textbf{\textit{Resumo.}}\ \itshape}{\end{list}}
+\makeatother

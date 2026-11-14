@@ -1,0 +1,3 @@
+run_id,cenario,repeticao,evento_id,tipo,fila_esperada,enviado_utc,aceito,eventbridge_id,erro_publicacao
+20261114T122134Z-0efb55cb,smoke,1,cc6641c5-d241-4896-a451-7a5311e46133,normal,pedidos-normais,2026-11-14T12:21:34.317945+00:00,True,ed567aa4-8e74-c2a5-f2ef-77e9ca377d97,
+20261114T122134Z-0efb55cb,smoke,1,84f57cca-9234-45fa-9322-40f98a94500d,prioritario,pedidos-prioritario,2026-11-14T12:21:34.318003+00:00,True,44bb82c5-3432-3afa-2575-67b40fb9e40b,
